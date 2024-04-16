@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="com.example.educationgallery.ui.fragments.ScheduleFragment"
+        android:name="com.example.educationgallery.ui.schedule_screen.ScheduleFragment"
         android:label="fragment_schedule"
         tools:layout="@layout/fragment_schedule" />
 
