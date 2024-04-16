@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -15,8 +18,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.educationgallery.R
 import com.example.educationgallery.databinding.ActivityMainBinding
-import com.example.educationgallery.ui.components.button_navigation.BottomNavigation
-import com.example.educationgallery.ui.components.button_navigation.NavGraph
+import com.example.educationgallery.ui.button_navigation.BottomNavigation
+import com.example.educationgallery.ui.button_navigation.NavGraph
 import com.example.educationgallery.viewmodels.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -31,31 +34,13 @@ class MainActivity : AppCompatActivity() {
             Scaffold(
                 bottomBar = { BottomNavigation(navController = navController) }
             ) {
-                NavGraph(navHostController = navController)
-                it
+                Box(modifier = Modifier.padding(it)) {
+                    NavGraph(navHostController = navController)
+                }
             }
         }
         checkPermission()
-
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
-
-
-//        binding.bottomMenu.setOnItemSelectedListener{
-//            when(it.itemId){
-//                R.id.menu_schedule -> {
-//                    navController.navigate(R.id.action_to_scheduleFragment)
-//                }
-//                R.id.menu_gallery -> {
-//                    navController.navigate(R.id.action_to_photoFragment)
-//                }
-//                R.id.menu_settings -> {
-//
-//                }
-//                else -> {}
-//            }
-//            return@setOnItemSelectedListener true
-//        }
-
     }
 
     private fun checkPermission() {
