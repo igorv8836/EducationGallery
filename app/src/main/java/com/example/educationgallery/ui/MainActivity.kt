@@ -5,47 +5,56 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.Scaffold
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.educationgallery.R
 import com.example.educationgallery.databinding.ActivityMainBinding
+import com.example.educationgallery.ui.components.button_navigation.BottomNavigation
+import com.example.educationgallery.ui.components.button_navigation.NavGraph
 import com.example.educationgallery.viewmodels.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainActivityViewModel
-    private lateinit var navController: NavController
+    private var navController: NavController? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContent {
+            val navController = rememberNavController()
+            Scaffold(
+                bottomBar = { BottomNavigation(navController = navController) }
+            ) {
+                NavGraph(navHostController = navController)
+                it
+            }
+        }
         checkPermission()
 
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
 
-        navController = (supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment)
-            .navController
 
-        binding.bottomMenu.setOnItemSelectedListener{
-            when(it.itemId){
-                R.id.menu_schedule -> {
-                    navController.navigate(R.id.action_to_scheduleFragment)
-                }
-                R.id.menu_gallery -> {
-                    navController.navigate(R.id.action_to_photoFragment)
-                }
-                R.id.menu_settings -> {
-
-                }
-                else -> {}
-            }
-            return@setOnItemSelectedListener true
-        }
+//        binding.bottomMenu.setOnItemSelectedListener{
+//            when(it.itemId){
+//                R.id.menu_schedule -> {
+//                    navController.navigate(R.id.action_to_scheduleFragment)
+//                }
+//                R.id.menu_gallery -> {
+//                    navController.navigate(R.id.action_to_photoFragment)
+//                }
+//                R.id.menu_settings -> {
+//
+//                }
+//                else -> {}
+//            }
+//            return@setOnItemSelectedListener true
+//        }
 
     }
 
