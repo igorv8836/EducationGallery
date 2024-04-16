@@ -48,10 +48,13 @@ android {
 
 dependencies {
     implementation("androidx.compose.material3:material3-android:1.2.1")
+    implementation("androidx.compose.foundation:foundation-android:1.6.5")
+    implementation("androidx.leanback:leanback:1.0.0")
     val room_version = "2.6.1"
     val nav_version = "2.7.7"
     val moshi_version = "1.12.0"
     val retrofit_version = "2.9.0"
+    val accompanist_version = "0.28.0"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -108,4 +111,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     // Optional - Integration with LiveData
     implementation("androidx.compose.runtime:runtime-livedata")
+
+    implementation("com.google.accompanist:accompanist-pager:$accompanist_version")
+    implementation("com.google.accompanist:accompanist-pager-indicators:$accompanist_version")
 }
