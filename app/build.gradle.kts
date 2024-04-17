@@ -54,6 +54,7 @@ dependencies {
     val nav_version = "2.7.7"
     val moshi_version = "1.12.0"
     val retrofit_version = "2.9.0"
+    val gson_version = "2.10.1"
     val accompanist_version = "0.28.0"
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -72,6 +73,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     //Navigation------------------------------------------------------------------------------------
 
+    //Database Converter----------------------------------------------------------------------------
+    implementation("com.google.code.gson:gson:$gson_version")
+    //Database Converter----------------------------------------------------------------------------
 
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
