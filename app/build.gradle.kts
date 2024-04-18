@@ -47,15 +47,13 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.material3:material3-android:1.2.1")
-    implementation("androidx.compose.foundation:foundation-android:1.6.5")
-    implementation("androidx.leanback:leanback:1.0.0")
     val room_version = "2.6.1"
     val nav_version = "2.7.7"
     val moshi_version = "1.12.0"
     val retrofit_version = "2.9.0"
     val gson_version = "2.10.1"
     val accompanist_version = "0.28.0"
+
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -66,16 +64,12 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
 
-    //Navigation------------------------------------------------------------------------------------
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
-    //Navigation------------------------------------------------------------------------------------
 
-    //Database Converter----------------------------------------------------------------------------
     implementation("com.google.code.gson:gson:$gson_version")
-    //Database Converter----------------------------------------------------------------------------
 
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
@@ -89,10 +83,15 @@ dependencies {
     implementation("com.squareup.moshi:moshi:$moshi_version")
     implementation("com.squareup.moshi:moshi-kotlin:$moshi_version")
 
+
+
     val composeBom = platform("androidx.compose:compose-bom:2024.03.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
+    implementation("androidx.compose.material3:material3-android:1.2.1")
+    implementation("androidx.compose.foundation:foundation-android:1.6.5")
+    implementation("androidx.leanback:leanback:1.0.0")
 
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -100,20 +99,12 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    // Optional - Included automatically by material, only add when you need
-    // the icons but not the material library (e.g. when using Material3 or a
-    // custom design system based on Foundation)
     implementation("androidx.compose.material:material-icons-core")
-    // Optional - Add full set of material icons
     implementation("androidx.compose.material:material-icons-extended")
-    // Optional - Add window size utils
     implementation("androidx.compose.material3:material3-window-size-class")
 
-    // Optional - Integration with activities
     implementation("androidx.activity:activity-compose:1.8.2")
-    // Optional - Integration with ViewModels
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    // Optional - Integration with LiveData
     implementation("androidx.compose.runtime:runtime-livedata")
 
     implementation("com.google.accompanist:accompanist-pager:$accompanist_version")
