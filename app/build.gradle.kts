@@ -47,6 +47,9 @@ android {
 }
 
 dependencies {
+    implementation("androidx.compose.material3:material3-android:1.2.1")
+    implementation("androidx.compose.foundation:foundation-android:1.6.5")
+    implementation("androidx.leanback:leanback:1.0.0")
     val room_version = "2.6.1"
     val nav_version = "2.7.7"
     val moshi_version = "1.12.0"
@@ -55,7 +58,7 @@ dependencies {
     val accompanist_version = "0.28.0"
 
 
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:+")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -69,11 +72,12 @@ dependencies {
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
+    //Database Converter----------------------------------------------------------------------------
     implementation("com.google.code.gson:gson:$gson_version")
+    //Database Converter----------------------------------------------------------------------------
 
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-paging:$room_version")
 
