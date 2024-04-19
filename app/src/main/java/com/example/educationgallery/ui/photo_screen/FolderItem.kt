@@ -1,4 +1,4 @@
-package com.example.educationgallery.ui.components
+package com.example.educationgallery.ui.photo_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -21,21 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.educationgallery.R
-
-@Preview(showBackground = true)
-@Composable
-fun PhotoFragmentScreen() {
-    MaterialTheme {
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(100) {
-                FolderItem()
-            }
-        }
-    }
-}
 
 @Composable
 fun FolderItem() {
