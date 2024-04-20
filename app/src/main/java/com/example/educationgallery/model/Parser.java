@@ -82,7 +82,7 @@ public class Parser
             br.close();
             JSONArray jsonArray = new JSONArray(sb.toString());
             jsonObject = jsonArray.getJSONObject(0);
-            if(jsonObject == null)
+            if(jsonObject == null || (jsonObject != null && jsonObject.getBoolean("error")))
             {
                 throw new JsonException("Empty json");
             }
