@@ -41,8 +41,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.educationgallery.R
-import com.example.educationgallery.ui.button_navigation.BottomNavigation
-import com.example.educationgallery.ui.button_navigation.NavGraph
+import com.example.educationgallery.model.LessonTime
+import com.example.educationgallery.ui.navigation.button_navigation.BottomNavigation
+import com.example.educationgallery.ui.navigation.button_navigation.NavGraph
 import com.example.educationgallery.viewmodels.MainActivityViewModel
 import java.io.IOException
 
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
+
         setContent {
             MaterialTheme {
                 var showSyncDialog by remember { mutableStateOf(false) }

@@ -1,4 +1,4 @@
-package com.example.educationgallery.ui.button_navigation
+package com.example.educationgallery.ui.navigation.button_navigation
 
 enum class RouteName(val value: String) {
     SCHEDULE_SCREEN("screen_1"),

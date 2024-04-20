@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,11 +21,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.educationgallery.R
 
+@Preview(showBackground = true)
 @Composable
-fun FolderItem() {
+fun LessonFolderItem(onClick: () -> Unit = {}) {
     val interactionSource = remember { MutableInteractionSource() }
     val ripple = rememberRipple(bounded = true)
     Surface(
@@ -33,8 +36,12 @@ fun FolderItem() {
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
-            .clickable(interactionSource = interactionSource, indication = ripple, onClick = {})
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple,
+                onClick = onClick
+            )
     ) {
         Box {
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -47,15 +54,27 @@ fun FolderItem() {
                         .size(48.dp)
                 )
 
-                Text(
-                    text = "Folder",
-                    style = MaterialTheme.typography.bodyLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .padding(start = 8.dp)
-                )
+                Column {
+                    Text(
+                        text = "12.04",
+                        style = MaterialTheme.typography.bodyLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(start = 8.dp, bottom = 4.dp)
+                    )
+
+                    Text(
+                        text = "Лекция",
+                        style = MaterialTheme.typography.bodySmall,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(start = 8.dp)
+                    )
+                }
             }
 
             Text(
@@ -63,7 +82,7 @@ fun FolderItem() {
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(4.dp)
+                    .padding(end = 12.dp, bottom = 4.dp)
             )
         }
 
