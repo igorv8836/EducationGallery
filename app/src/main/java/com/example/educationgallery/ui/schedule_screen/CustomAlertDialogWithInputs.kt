@@ -14,12 +14,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,40 +24,41 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.example.educationgallery.ui.models.LessonView
+import com.example.educationgallery.ui.schedule_screen.components.CategoryItems
+import com.example.educationgallery.ui.schedule_screen.components.DropdownSelector
+import com.example.educationgallery.viewmodels.ScheduleViewModel
 
 
 @Composable
 fun CustomAlertDialogWithInputs(
-    onDismissRequest: () -> Unit,
-    onDeleteClick: () -> Unit,
-    onSaveClick: (String, String, String) -> Unit
+    viewModel: ScheduleViewModel,
+    lessonView: LessonView?,
+    isCreating: Boolean,
+    onDismissRequest: () -> Unit
 ) {
-    var text by remember { mutableStateOf("") }
-    val types = listOf("ПР", "ЛК")
-    var selectedType by remember { mutableStateOf(types.first()) }
-    val times = listOf("9:00-10:30", "10:40-12:10", "12:40-14:10")
-    var selectedTime by remember { mutableStateOf(times.first()) }
+    var text by remember { mutableStateOf(lessonView?.name ?: "") }
+    val types = viewModel.lessonsTypes.collectAsState()
+    var selectedType by remember { mutableStateOf(lessonView?.lessonType ?: types.value.first()) }
+    val times = viewModel.lessonsTimes.collectAsState()
+    var selectedTime by remember { mutableStateOf(lessonView?.time ?: times.value.first()) }
 
     var expandedType by remember { mutableStateOf(false) }
     var expandedTime by remember { mutableStateOf(false) }
 
-    val suggestions = listOf(
-        "Работа",
-        "Личное",
-        "Дом",
-        "Учеба",
-    )
+    val suggestions = viewModel.filteredScheduleName.collectAsState()
     var expanded by remember { mutableStateOf(false) }
-    val filteredSuggestions = suggestions.filter { it.contains(text, ignoreCase = true) }
 
     var textFieldSize by remember {
         mutableStateOf(Size.Zero)
@@ -75,11 +73,14 @@ fun CustomAlertDialogWithInputs(
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                IconButton(onClick = { onDeleteClick() }) {
+                IconButton(enabled = !isCreating, onClick = {
+                    viewModel.deleteLesson(lessonView?.id ?: -1)
+                    onDismissRequest()
+                }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Delete",
-                        tint = MaterialTheme.colorScheme.error
+                        tint = if (!isCreating) MaterialTheme.colorScheme.error else Color.LightGray
                     )
                 }
             }
@@ -91,8 +92,9 @@ fun CustomAlertDialogWithInputs(
                     onValueChange = {
                         text = it
                         expanded = it.isNotEmpty()
+                        viewModel.getFilteredScheduleName(it)
                     },
-                    label = { Text("Введите текст") },
+                    label = { Text("Введите название") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .onGloballyPositioned { coordinates ->
@@ -127,7 +129,7 @@ fun CustomAlertDialogWithInputs(
                             LazyColumn(
                                 modifier = Modifier.heightIn(max = 150.dp),
                             ) {
-                                items(suggestions) {
+                                items(suggestions.value) {
                                     CategoryItems(title = it) { title ->
                                         text = title
                                         expanded = false
@@ -141,7 +143,7 @@ fun CustomAlertDialogWithInputs(
 
                 DropdownSelector(
                     label = "Тип занятия",
-                    options = types,
+                    options = types.value,
                     selectedOption = selectedType,
                     expanded = expandedType,
                     onExpandedChange = { expandedType = it },
@@ -149,7 +151,7 @@ fun CustomAlertDialogWithInputs(
                 )
                 DropdownSelector(
                     label = "Время занятия",
-                    options = times,
+                    options = times.value,
                     selectedOption = selectedTime,
                     expanded = expandedTime,
                     onExpandedChange = { expandedTime = it },
@@ -159,7 +161,13 @@ fun CustomAlertDialogWithInputs(
         },
         confirmButton = {
             TextButton(
-                onClick = { onSaveClick(text, selectedType, selectedTime) },
+                onClick = {
+                    if (!isCreating)
+                        viewModel.changeSchedule(lessonView?.id ?: -1, text, selectedTime, selectedType)
+                    else
+                        viewModel.addLesson(text, selectedTime, selectedType)
+                    onDismissRequest()
+                },
             ) {
                 Text("Сохранить", color = MaterialTheme.colorScheme.primary)
             }
@@ -172,40 +180,4 @@ fun CustomAlertDialogWithInputs(
             }
         }
     )
-}
-
-@Composable
-fun DropdownSelector(
-    label: String,
-    options: List<String>,
-    selectedOption: String,
-    expanded: Boolean,
-    onExpandedChange: (Boolean) -> Unit,
-    onOptionSelected: (String) -> Unit
-) {
-    Column {
-        Text(text = label, style = MaterialTheme.typography.bodyMedium)
-        Box {
-            TextButton(onClick = { onExpandedChange(true) }) {
-                Text(selectedOption)
-                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
-            }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { onExpandedChange(false) }
-            ) {
-                options.forEach { option ->
-                    DropdownMenuItem(
-                        onClick = {
-                            onOptionSelected(option)
-                            onExpandedChange(false)
-                        },
-                        text = {
-                            Text(option)
-                        }
-                    )
-                }
-            }
-        }
-    }
 }
