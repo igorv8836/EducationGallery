@@ -31,10 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.example.educationgallery.ui.models.LessonView
+import com.example.educationgallery.ui.schedule_screen.components.CategoryItems
+import com.example.educationgallery.ui.schedule_screen.components.DropdownSelector
 import com.example.educationgallery.viewmodels.ScheduleViewModel
 
 
@@ -42,6 +45,7 @@ import com.example.educationgallery.viewmodels.ScheduleViewModel
 fun CustomAlertDialogWithInputs(
     viewModel: ScheduleViewModel,
     lessonView: LessonView?,
+    isCreating: Boolean,
     onDismissRequest: () -> Unit
 ) {
     var text by remember { mutableStateOf(lessonView?.name ?: "") }
@@ -69,15 +73,14 @@ fun CustomAlertDialogWithInputs(
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                IconButton(onClick = {
-                    viewModel.deleteLesson()
+                IconButton(enabled = !isCreating, onClick = {
+                    viewModel.deleteLesson(lessonView?.id ?: -1)
                     onDismissRequest()
-                    TODO("Передать данные")
                 }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Delete",
-                        tint = MaterialTheme.colorScheme.error
+                        tint = if (!isCreating) MaterialTheme.colorScheme.error else Color.LightGray
                     )
                 }
             }
@@ -159,9 +162,11 @@ fun CustomAlertDialogWithInputs(
         confirmButton = {
             TextButton(
                 onClick = {
-                    viewModel.changeSchedule()
+                    if (!isCreating)
+                        viewModel.changeSchedule(lessonView?.id ?: -1, text, selectedTime, selectedType)
+                    else
+                        viewModel.addLesson(text, selectedTime, selectedType)
                     onDismissRequest()
-                    TODO("Передать данные")
                 },
             ) {
                 Text("Сохранить", color = MaterialTheme.colorScheme.primary)

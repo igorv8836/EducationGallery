@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.educationgallery.ui.navigation.photo_screen_navigation.PhotoNavGraph
 import com.example.educationgallery.ui.schedule_screen.ScheduleFragmentScreen
+import com.example.educationgallery.viewmodels.PhotoViewModel
 import com.example.educationgallery.viewmodels.ScheduleViewModel
 
 @Composable
@@ -20,7 +21,8 @@ fun NavGraph(navHostController: NavHostController) {
 
         composable(RouteName.PHOTO_SCREEN.value){
             val photoNavHostController = rememberNavController()
-            PhotoNavGraph(navHostController = photoNavHostController)
+            val viewModel: PhotoViewModel = viewModel()
+            PhotoNavGraph(navHostController = photoNavHostController, viewModel)
         }
     }
 }

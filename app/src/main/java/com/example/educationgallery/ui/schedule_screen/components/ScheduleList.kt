@@ -1,4 +1,4 @@
-package com.example.educationgallery.ui.schedule_screen
+package com.example.educationgallery.ui.schedule_screen.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -27,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.educationgallery.R
 import com.example.educationgallery.ui.models.LessonView
+import com.example.educationgallery.ui.schedule_screen.CustomAlertDialogWithInputs
 import com.example.educationgallery.viewmodels.ScheduleViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -44,8 +46,10 @@ fun ScheduleList(
     var showDialog by remember { mutableStateOf(false) }
     var isCreating by remember { mutableStateOf(false) }
 
+    val currPageIndex = mainPageState.currentPage
+
     if (showDialog) {
-        CustomAlertDialogWithInputs(viewModel, selectedLesson){
+        CustomAlertDialogWithInputs(viewModel, selectedLesson, isCreating) {
             showDialog = false
         }
     }
@@ -88,11 +92,20 @@ fun ScheduleList(
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
             LazyColumn(modifier = Modifier.weight(1f)) {
-                items(schedule.value.size) { index ->
-                    LessonItem() {
+                val daySchedule = if (currPageIndex < 7) {
+                    schedule.value?.oddWeek?.dayScheduleList?.get(currPageIndex % 7)?.lessonsList
+                        ?: emptyList()
+                } else {
+                    schedule.value?.evenWeek?.dayScheduleList?.get(currPageIndex % 7)?.lessonsList
+                        ?: emptyList()
+                }
+                items(daySchedule) {
+                    LessonItem(it) {
+                        selectedLesson = it
                         isCreating = false
                         showDialog = true
                     }
+
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )

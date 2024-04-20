@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,20 +25,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.example.educationgallery.ui.photo_screen.components.ZoomableImage
+import com.example.educationgallery.viewmodels.PhotoViewModel
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PhotoGridScreen(navController: NavController, subjectId: Int, lessonId: Int) {
-    val test = listOf(
-        "https://random.dog/5cd73551-c42b-4c0f-bd80-634998e9a128.jpg",
-        "https://random.dog/24178-5036-5513.jpg",
-        "https://random.dog/a87a8d31-48dd-45b4-baab-e115dfa70692.jpg",
-        "https://random.dog/1ddb2caa-41f5-456f-a446-f5a5335b5811.jpg",
-        "https://random.dog/57f9587d-d6b1-4c05-acff-030c6affac57.png"
-    )
+fun PhotoGridScreen(
+    navController: NavController,
+    viewModel: PhotoViewModel,
+    subjectId: Int,
+    lessonId: Int
+) {
+    viewModel.getPhotos(subjectId, lessonId)
     var showDialog by remember { mutableStateOf(false) }
     var selectedPhotoUrl by remember { mutableStateOf("") }
+
+    val photos = viewModel.photos.collectAsState()
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -45,7 +49,7 @@ fun PhotoGridScreen(navController: NavController, subjectId: Int, lessonId: Int)
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        items(test) { photoUrl ->
+        items(photos.value) { photoUrl ->
             Image(
                 painter = rememberImagePainter(data = photoUrl),
                 contentDescription = null,
