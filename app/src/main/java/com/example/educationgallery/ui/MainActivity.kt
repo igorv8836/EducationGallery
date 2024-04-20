@@ -1,8 +1,13 @@
 package com.example.educationgallery.ui
 
+import android.content.Context
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.media.ExifInterface
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
@@ -30,24 +35,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.educationgallery.R
-import com.example.educationgallery.ui.button_navigation.BottomNavigation
-import com.example.educationgallery.ui.button_navigation.NavGraph
+import com.example.educationgallery.model.LessonTime
+import com.example.educationgallery.ui.navigation.button_navigation.BottomNavigation
+import com.example.educationgallery.ui.navigation.button_navigation.NavGraph
 import com.example.educationgallery.viewmodels.MainActivityViewModel
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainActivityViewModel
     private var navController: NavController? = null
 
 
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
+
         setContent {
             MaterialTheme {
                 var showSyncDialog by remember { mutableStateOf(false) }
@@ -135,6 +145,42 @@ class MainActivity : AppCompatActivity() {
             requestPermissions(arrayOf(permission), 1)
         }
     }
+}
 
+fun getPhotoMetadata(context: Context, photoUri: Uri) {
+    try {
+        context.contentResolver.openInputStream(photoUri)?.use { inputStream ->
+            val exifInterface = ExifInterface(inputStream)
+            val dateTime = exifInterface.getAttribute(ExifInterface.TAG_DATETIME)
+            val a = 12
+        }
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
+}
 
+fun getAllPhotos(context: Context): List<Uri> {
+    val uriExternal: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+    val cursor: Cursor?
+    val columnIndexID: Int
+    val listOfAllImages: MutableList<Uri> = mutableListOf()
+    val projection = arrayOf(MediaStore.Images.Media._ID)
+
+    var imageUri: Uri
+    val orderBy = MediaStore.Images.Media.DATE_TAKEN
+
+    cursor = context.contentResolver.query(
+        uriExternal, projection, null, null, "$orderBy DESC"
+    )
+
+    if (cursor != null) {
+        columnIndexID = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+        while (cursor.moveToNext()) {
+            imageUri = Uri.withAppendedPath(uriExternal, "" + cursor.getLong(columnIndexID))
+            listOfAllImages.add(imageUri)
+        }
+        cursor.close()
+    }
+
+    return listOfAllImages
 }

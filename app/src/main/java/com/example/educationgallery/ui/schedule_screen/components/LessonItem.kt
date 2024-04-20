@@ -1,4 +1,4 @@
-package com.example.educationgallery.ui.schedule_screen
+package com.example.educationgallery.ui.schedule_screen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,9 +19,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.educationgallery.ui.models.LessonView
 
 @Composable
-fun LessonItem(onClick : () -> Unit) {
+fun LessonItem(lesson: LessonView, onClick : () -> Unit) {
     Column(
         modifier = Modifier.clickable(
             interactionSource = remember { MutableInteractionSource() },
@@ -31,7 +32,7 @@ fun LessonItem(onClick : () -> Unit) {
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "Программирование на языке Питон",
+                text = lesson.name,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold
                 ),
@@ -42,7 +43,7 @@ fun LessonItem(onClick : () -> Unit) {
                 maxLines = 2
             )
             Text(
-                text = "ПР",
+                text = lesson.lessonType,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
@@ -54,7 +55,7 @@ fun LessonItem(onClick : () -> Unit) {
 
         }
         Text(
-            text = "12:40-14:10",
+            text = lesson.time,
             style = MaterialTheme.typography.bodyLarge
         )
     }
