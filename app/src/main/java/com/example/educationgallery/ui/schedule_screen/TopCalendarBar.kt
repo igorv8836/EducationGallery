@@ -62,9 +62,12 @@ fun TopCalendarBar(
                     }
                     .clip(RoundedCornerShape(50)))
             Text(
-                text = if (isOddWeek.value) "Нечетная неделя" else "Четная неделя", style = TextStyle(
-                    textAlign = TextAlign.Center, fontSize = MaterialTheme.typography.bodyLarge.fontSize
-                ), modifier = Modifier
+                text = if (isOddWeek.value) "Нечетная неделя" else "Четная неделя",
+                style = TextStyle(
+                    textAlign = TextAlign.Center,
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
+                ),
+                modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .weight(1f)
             )
@@ -85,7 +88,8 @@ fun TopCalendarBar(
                     val isSelected =
                         currWeekPageIndex.intValue == index && isSelectedInOddWeek.value == isOddWeek.value
                     val backgroundColor = animateColorAsState(
-                        targetValue = if (isSelected) Color.LightGray else Color.Transparent, label = ""
+                        targetValue = if (isSelected) Color.LightGray else Color.Transparent,
+                        label = ""
                     )
                     Tab(selected = isSelected, onClick = {
                         currWeekPageIndex.intValue = index
