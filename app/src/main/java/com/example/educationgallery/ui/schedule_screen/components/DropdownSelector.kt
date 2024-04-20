@@ -1,4 +1,4 @@
-package com.example.educationgallery.ui.schedule_screen
+package com.example.educationgallery.ui.schedule_screen.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

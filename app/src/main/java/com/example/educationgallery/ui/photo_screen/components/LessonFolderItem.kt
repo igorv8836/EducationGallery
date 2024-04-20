@@ -1,4 +1,4 @@
-package com.example.educationgallery.ui.photo_screen
+package com.example.educationgallery.ui.photo_screen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -24,10 +24,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.educationgallery.R
+import com.example.educationgallery.ui.models.LessonFolderView
 
-@Preview(showBackground = true)
 @Composable
-fun SubjectFolderItem(onClick: () -> Unit = {}) {
+fun LessonFolderItem(lessonFolderView: LessonFolderView, onClick: () -> Unit = {}) {
     val interactionSource = remember { MutableInteractionSource() }
     val ripple = rememberRipple(bounded = true)
     Surface(
@@ -37,7 +37,11 @@ fun SubjectFolderItem(onClick: () -> Unit = {}) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 4.dp)
-            .clickable(interactionSource = interactionSource, indication = ripple, onClick = onClick)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple,
+                onClick = onClick
+            )
     ) {
         Box {
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -50,24 +54,36 @@ fun SubjectFolderItem(onClick: () -> Unit = {}) {
                         .size(48.dp)
                 )
 
-                Text(
-                    text = "Лекция",
-                    style = MaterialTheme.typography.bodyLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .padding(start = 8.dp)
-                )
+                Column {
+                    Text(
+                        text = lessonFolderView.date,
+                        style = MaterialTheme.typography.bodyLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(start = 8.dp, bottom = 4.dp)
+                    )
+
+                    Text(
+                        text = lessonFolderView.type,
+                        style = MaterialTheme.typography.bodySmall,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(start = 8.dp)
+                    )
+                }
             }
 
-            Text(
-                text = "10 шт",
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(end = 12.dp, bottom = 4.dp)
-            )
+//            Text(
+//                text = "10 шт",
+//                style = MaterialTheme.typography.bodySmall,
+//                modifier = Modifier
+//                    .align(Alignment.BottomEnd)
+//                    .padding(end = 12.dp, bottom = 4.dp)
+//            )
         }
 
     }

@@ -1,7 +1,6 @@
 package com.example.educationgallery.ui.navigation.photo_screen_navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -13,14 +12,13 @@ import com.example.educationgallery.ui.photo_screen.SubjectListScreen
 import com.example.educationgallery.viewmodels.PhotoViewModel
 
 @Composable
-fun PhotoNavGraph(navHostController: NavHostController) {
+fun PhotoNavGraph(navHostController: NavHostController, viewModel: PhotoViewModel) {
     NavHost(
         navController = navHostController,
         startDestination = PhotoRouteName.SUBJECT_LIST_SCREEN.value
     ) {
         composable(PhotoRouteName.SUBJECT_LIST_SCREEN.value) {
-            val viewModel: PhotoViewModel = viewModel()
-            SubjectListScreen(navHostController)
+            SubjectListScreen(navHostController, viewModel)
         }
         composable(
             "${PhotoRouteName.LESSON_LIST_SCREEN.value}/{subjectId}",
@@ -28,6 +26,7 @@ fun PhotoNavGraph(navHostController: NavHostController) {
         ) {
             LessonListScreen(
                 navHostController,
+                viewModel,
                 it.arguments?.getInt("subjectId") ?: -1
             )
         }
@@ -39,6 +38,7 @@ fun PhotoNavGraph(navHostController: NavHostController) {
         ) {
             PhotoGridScreen(
                 navHostController,
+                viewModel,
                 it.arguments?.getInt("subjectId") ?: -1,
                 it.arguments?.getInt("lessonId") ?: -1
             )

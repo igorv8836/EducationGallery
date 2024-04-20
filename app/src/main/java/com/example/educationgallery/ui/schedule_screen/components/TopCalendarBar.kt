@@ -1,4 +1,4 @@
-package com.example.educationgallery.ui.schedule_screen
+package com.example.educationgallery.ui.schedule_screen.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background

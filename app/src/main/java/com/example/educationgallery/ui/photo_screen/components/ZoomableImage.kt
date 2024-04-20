@@ -1,4 +1,4 @@
-package com.example.educationgallery.ui.photo_screen
+package com.example.educationgallery.ui.photo_screen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
