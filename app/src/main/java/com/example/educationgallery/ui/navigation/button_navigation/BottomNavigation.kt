@@ -1,4 +1,4 @@
-package com.example.educationgallery.ui.button_navigation
+package com.example.educationgallery.ui.navigation.button_navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -33,8 +33,7 @@ fun BottomNavigation(navController: NavController?) {
     val currentRoute = backStackEntry?.value?.destination?.route
     val listItems = listOf(
         BottomItem.Screen1,
-        BottomItem.Screen2,
-//        BottomItem.Screen3
+        BottomItem.Screen2
     )
 
     NavigationBar() {
