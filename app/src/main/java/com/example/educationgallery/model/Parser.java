@@ -41,19 +41,10 @@ public class Parser
                 JSONArray odd = schedule.getJSONObject(j).getJSONArray("odd");
                 WeekDay WeekDay = dayDefining(schedule.getJSONObject(j).getString("day"));
 
-                Day day = new Converters().fillDay(
-                        WeekDay,
-                        arrayListLesson(odd),
-                        arrayListLesson(even)
-                );
+                Day day = new Converters().fillDay( WeekDay, arrayListLesson(odd), arrayListLesson(even));
 
                 db.dayDao().insertAll(day);
             }
-            db.dayDao().insert(new Converters().fillDay(
-                    WeekDay.SUNDAY,
-                    new ArrayList<>(7),
-                    new ArrayList<Lesson>(7)
-            ));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -141,14 +132,11 @@ public class Parser
         {
             JSONArray lesson = array.getJSONArray(i);
             if (!lesson.isNull(0))
-                subjects.add(new Lesson(
-                        lesson.getJSONObject(0).get("type").toString(),
-                        lesson.getJSONObject(0).get("name").toString(),
-                        i
-                ));
+                subjects.add(new Lesson(lesson.getJSONObject(0).get("type").toString(),lesson.getJSONObject(0).get("name").toString()));
             else
                 subjects.add(null);
         }
         return subjects;
     }
+
 }
