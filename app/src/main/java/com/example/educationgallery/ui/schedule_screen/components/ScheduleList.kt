@@ -49,7 +49,7 @@ fun ScheduleList(
     val currPageIndex = mainPageState.currentPage
 
     if (showDialog) {
-        CustomAlertDialogWithInputs(viewModel, selectedLesson, isCreating) {
+        CustomAlertDialogWithInputs(viewModel, selectedLesson, isCreating, currPageIndex) {
             showDialog = false
         }
     }
@@ -92,12 +92,18 @@ fun ScheduleList(
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
             LazyColumn(modifier = Modifier.weight(1f)) {
-                val daySchedule = if (currPageIndex < 7) {
+                val daySchedule = if (currPageIndex < 7 &&
+                    (schedule.value?.oddWeek?.dayScheduleList?.size  ?: 0) > currPageIndex % 7)
+                {
                     schedule.value?.oddWeek?.dayScheduleList?.get(currPageIndex % 7)?.lessonsList
                         ?: emptyList()
-                } else {
+                } else if ((schedule.value?.evenWeek?.dayScheduleList?.size
+                        ?: 0) > currPageIndex % 7
+                ) {
                     schedule.value?.evenWeek?.dayScheduleList?.get(currPageIndex % 7)?.lessonsList
                         ?: emptyList()
+                } else {
+                    emptyList()
                 }
                 items(daySchedule) {
                     LessonItem(it) {

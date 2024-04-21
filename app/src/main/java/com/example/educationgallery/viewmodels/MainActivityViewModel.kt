@@ -11,15 +11,14 @@ import kotlinx.coroutines.withContext
 
 class MainActivityViewModel: ViewModel() {
     private val tag = "MainActivityVM"
-    // Функция, которая синхронизирует расписание согласно группе
-    // TODO: Нужно добавить обновление экрана к Игорю
+
     fun syncSchedule(group: String){
         val scheduleDB = App.dataBase
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 scheduleDB.clearAllTables()
                 try {
-                    val parser = Parser("ИКБО-06-22")
+                    val parser = Parser(group)
                     parser.fillDB(scheduleDB)
                 }
                 catch (e: Exception){
