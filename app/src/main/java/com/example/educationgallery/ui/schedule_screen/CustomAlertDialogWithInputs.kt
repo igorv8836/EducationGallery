@@ -46,6 +46,7 @@ fun CustomAlertDialogWithInputs(
     viewModel: ScheduleViewModel,
     lessonView: LessonView?,
     isCreating: Boolean,
+    currPageIndex: Int,
     onDismissRequest: () -> Unit
 ) {
     var text by remember { mutableStateOf(lessonView?.name ?: "") }
@@ -165,7 +166,7 @@ fun CustomAlertDialogWithInputs(
                     if (!isCreating)
                         viewModel.changeSchedule(lessonView?.id ?: -1, text, selectedTime, selectedType)
                     else
-                        viewModel.addLesson(text, selectedTime, selectedType)
+                        viewModel.addLesson(text, selectedTime, selectedType, currPageIndex)
                     onDismissRequest()
                 },
             ) {
