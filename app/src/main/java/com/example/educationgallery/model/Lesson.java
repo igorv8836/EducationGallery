@@ -1,12 +1,15 @@
 package com.example.educationgallery.model;
 
-class Lesson {
+public class Lesson {
     private final String type;
     private final String name;
+    private final int time;
 
-    public Lesson(String type, String name) {
-        this.name = name;
+
+    public Lesson(String type, String name, int time) {
         this.type = type;
+        this.name = name;
+        this.time = time;
     }
 
     public String getType() {
@@ -15,6 +18,9 @@ class Lesson {
 
     public String getName() {
         return name;
+    }
+    public int getTime(){
+        return time;
     }
 
 }
