@@ -4,7 +4,6 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
@@ -24,10 +23,6 @@ public interface DayDao {
     @Insert
     void insertAll(Day... days);
 
-    @Insert
-    void insert(Day day);
-    @Update
-    void updateDay(Day day);
     @Delete
     void delete(Day day);
 }

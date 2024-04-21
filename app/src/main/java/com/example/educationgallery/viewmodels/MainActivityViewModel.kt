@@ -2,14 +2,9 @@ package com.example.educationgallery.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.educationgallery.model.App
-import com.example.educationgallery.model.Parser
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivityViewModel: ViewModel() {
+
     private val tag = "MainActivityVM"
 
     fun syncSchedule(group: String){
@@ -27,5 +22,4 @@ class MainActivityViewModel: ViewModel() {
             }
         }
         Log.d(tag, group)
-    }
 }

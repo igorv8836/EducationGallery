@@ -1,6 +1,5 @@
 package com.example.educationgallery.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -22,14 +21,4 @@ public class Day
     @ColumnInfo(name = "evenweek")
     public ArrayList<Lesson> evenWeek;
 
-    @NonNull
-    @Override
-    public String toString() {
-        return "Day{" +
-                "uid=" + uid +
-                ", day=" + day +
-                ", oddWeek=" + oddWeek +
-                ", evenWeek=" + evenWeek +
-                '}';
-    }
 }
