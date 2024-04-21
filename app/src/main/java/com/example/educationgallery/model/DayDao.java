@@ -7,10 +7,12 @@ import androidx.room.Query;
 
 import java.util.List;
 
+import kotlinx.coroutines.flow.Flow;
+
 @Dao
 public interface DayDao {
     @Query("SELECT * FROM days")
-    List<Day> getAll();
+    Flow<List<Day>> getAll();
 
     @Query("SELECT * FROM days WHERE uid IN (:userIds)")
     List<Day> loadAllByIds(int[] userIds);
