@@ -116,7 +116,7 @@ class ScheduleViewModel : ViewModel() {
                     }
                     _lessons.value = TwoWeekScheduleView(
                         oddWeek = WeekScheduleView(weekOddSchedule),
-                        evenWeek = WeekScheduleView(weekOddSchedule)
+                        evenWeek = WeekScheduleView(weekEvenSchedule)
                     )
                 }
 

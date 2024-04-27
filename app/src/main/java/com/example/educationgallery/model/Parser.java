@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -51,8 +52,8 @@ public class Parser
             }
             db.dayDao().insert(new Converters().fillDay(
                     WeekDay.SUNDAY,
-                    new ArrayList<>(7),
-                    new ArrayList<Lesson>(7)
+                    new ArrayList<>(Collections.nCopies(7, null)),
+                    new ArrayList<>(Collections.nCopies(7, null))
             ));
         } catch (JSONException e) {
             throw new RuntimeException(e);
