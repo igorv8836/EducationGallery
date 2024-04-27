@@ -51,7 +51,7 @@ fun SubjectFolderItem(folderView: SubjectFolderView, onClick: () -> Unit = {}) {
                 )
 
                 Text(
-                    text = "Лекция",
+                    text = folderView.name,
                     style = MaterialTheme.typography.bodyLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

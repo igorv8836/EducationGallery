@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.media.ExifInterface
+import android.media.MediaMetadata
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -46,6 +47,7 @@ import com.example.educationgallery.ui.navigation.button_navigation.BottomNaviga
 import com.example.educationgallery.ui.navigation.button_navigation.NavGraph
 import com.example.educationgallery.viewmodels.MainActivityViewModel
 import java.io.IOException
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainActivityViewModel
@@ -158,7 +160,22 @@ fun getPhotoMetadata(context: Context, photoUri: Uri) {
         e.printStackTrace()
     }
 }
-
+fun getDateTaken(context: Context, photoUri: Uri): Date? {
+    val resolver = context.contentResolver
+    val cursor = resolver.query(
+        photoUri,
+        arrayOf(MediaStore.Images.Media.DATE_TAKEN),
+        null,
+        null,
+        null
+    )
+    if (cursor != null && cursor.moveToFirst()) {
+        val dateTaken = cursor.getLong(0)
+        cursor.close()
+        return Date(dateTaken)
+    }
+    return null
+}
 fun getAllPhotos(context: Context): List<Uri> {
     val uriExternal: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     val cursor: Cursor?
