@@ -143,9 +143,11 @@ class PhotoViewModel : ViewModel() {
         val endTime = parts[1]
         val (hoursStart, minutesStart) = startTime.split(":")
         val (hoursEnd, minutesEnd) = endTime.split(":")
+        val timeStart = hoursStart.toInt() * 60 + minutesStart.toInt()
+        val timePhoto = hour * 60 + minute
+        val timeEnd = hoursEnd.toInt() * 60 + minutesEnd.toInt()
         return dayOfWeek == dayCompare &&
                 weekParity == weekCompare &&
-                hoursStart.toInt() <= hour && hour <= hoursEnd.toInt() &&
-                minutesStart.toInt() <= minute && minute <= minutesEnd.toInt()
+                timeStart <= timePhoto && timePhoto <= timeEnd
     }
 }
