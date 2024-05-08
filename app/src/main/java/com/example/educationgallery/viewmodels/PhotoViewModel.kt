@@ -118,13 +118,16 @@ class PhotoViewModel : ViewModel() {
     }
 
     fun getPhotos(subjectId: Int, lessonId: Int) {
-        val photos = getAllPhotos(App.instance)
-        val filteredPhotos = photos.filter { photo ->
-            val dateTaken = getDateTaken(App.instance, photo)
-            dateTaken != null && isDateMatching(lessonId, dateTaken)
+        viewModelScope.launch(Dispatchers.IO) {
+            val photos = getAllPhotos(App.instance)
+            val filteredPhotos = photos.filter { photo ->
+                val dateTaken = getDateTaken(App.instance, photo)
+                dateTaken != null && isDateMatching(lessonId, dateTaken)
+            }
+            _photos.value = filteredPhotos.map { it.toString() }
+            Log.d(tag, "getPhotos $subjectId, $lessonId")
         }
-        _photos.value = filteredPhotos.map { it.toString() }
-        Log.d(tag, "getPhotos $subjectId, $lessonId")
+
     }
 
     private fun isDateMatching(subjectId: Int, date: Date): Boolean {

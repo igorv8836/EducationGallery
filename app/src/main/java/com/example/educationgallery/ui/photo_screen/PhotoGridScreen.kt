@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -29,7 +30,6 @@ import com.example.educationgallery.ui.photo_screen.components.ZoomableImage
 import com.example.educationgallery.viewmodels.PhotoViewModel
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PhotoGridScreen(
     navController: NavController,
@@ -67,7 +67,7 @@ fun PhotoGridScreen(
 
     if (showDialog) {
         Dialog(onDismissRequest = { showDialog = false }) {
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()){
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.wrapContentSize()){
                 ZoomableImage(imageUrl = selectedPhotoUrl)
             }
 

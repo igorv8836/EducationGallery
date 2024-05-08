@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.educationgallery.ui.navigation.photo_screen_navigation.PhotoRouteName
 import com.example.educationgallery.ui.photo_screen.components.SubjectFolderItem
+import com.example.educationgallery.viewmodels.MainActivityViewModel
 import com.example.educationgallery.viewmodels.PhotoViewModel
 
 @Composable

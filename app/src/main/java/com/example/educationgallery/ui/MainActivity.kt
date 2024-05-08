@@ -28,6 +28,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,7 +52,6 @@ import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainActivityViewModel
-    private var navController: NavController? = null
 
 
 
@@ -149,17 +149,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-fun getPhotoMetadata(context: Context, photoUri: Uri) {
-    try {
-        context.contentResolver.openInputStream(photoUri)?.use { inputStream ->
-            val exifInterface = ExifInterface(inputStream)
-            val dateTime = exifInterface.getAttribute(ExifInterface.TAG_DATETIME)
-            val a = 12
-        }
-    } catch (e: IOException) {
-        e.printStackTrace()
-    }
-}
 fun getDateTaken(context: Context, photoUri: Uri): Date? {
     val resolver = context.contentResolver
     val cursor = resolver.query(

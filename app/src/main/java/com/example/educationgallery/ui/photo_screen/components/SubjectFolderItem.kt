@@ -44,7 +44,6 @@ fun SubjectFolderItem(folderView: SubjectFolderView, onClick: () -> Unit = {}) {
                 Image(
                     painter = painterResource(id = R.drawable.folder),
                     contentDescription = "folder",
-                    colorFilter = ColorFilter.tint(Color.Green),
                     modifier = Modifier
                         .padding(start = 4.dp)
                         .size(48.dp)
