@@ -131,6 +131,10 @@ class ScheduleViewModel : ViewModel() {
                 val time = timeMap[selectedTime]!!
                 val lesson = Lesson(selectedType, name, time)
                 val addDay = scheduleDB.findByName(WeekDay.entries[dayNumber % 7])
+                if (addDay.oddWeek == null)
+                    addDay.oddWeek = ArrayList()
+                if (addDay.evenWeek == null)
+                    addDay.evenWeek = ArrayList()
                 if (dayNumber < 7) {
                     addDay.oddWeek[time] = lesson
                 } else {

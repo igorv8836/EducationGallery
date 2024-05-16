@@ -3,8 +3,6 @@ package com.example.educationgallery.ui
 import android.content.Context
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.media.ExifInterface
-import android.media.MediaMetadata
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -28,7 +26,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,22 +34,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.educationgallery.R
-import com.example.educationgallery.model.LessonTime
 import com.example.educationgallery.ui.navigation.button_navigation.BottomNavigation
 import com.example.educationgallery.ui.navigation.button_navigation.NavGraph
 import com.example.educationgallery.viewmodels.MainActivityViewModel
-import java.io.IOException
 import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainActivityViewModel
-
 
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -165,6 +157,7 @@ fun getDateTaken(context: Context, photoUri: Uri): Date? {
     }
     return null
 }
+
 fun getAllPhotos(context: Context): List<Uri> {
     val uriExternal: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     val cursor: Cursor?

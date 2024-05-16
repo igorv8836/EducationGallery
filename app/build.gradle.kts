@@ -47,6 +47,7 @@ android {
 }
 
 dependencies {
+
     val room_version = "2.6.1"
     val nav_version = "2.7.7"
     val gson_version = "2.10.1"
@@ -98,4 +99,6 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager-indicators:$accompanist_version")
 
     implementation("io.coil-kt:coil-compose:1.4.0")
+
+    implementation("net.engawapg.lib:zoomable:1.6.1")
 }
