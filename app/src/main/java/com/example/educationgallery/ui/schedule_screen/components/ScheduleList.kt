@@ -46,17 +46,20 @@ fun ScheduleList(
     var showDialog by remember { mutableStateOf(false) }
     var isCreating by remember { mutableStateOf(false) }
 
-    val currPageIndex = mainPageState.currentPage
-
     if (showDialog) {
-        CustomAlertDialogWithInputs(viewModel, selectedLesson, isCreating, currPageIndex) {
+        CustomAlertDialogWithInputs(
+            viewModel,
+            selectedLesson,
+            isCreating,
+            mainPageState.currentPage
+        ) {
             showDialog = false
         }
     }
 
     HorizontalPager(
         count = 14, state = mainPageState, modifier = Modifier.fillMaxSize()
-    ) {
+    ) { day ->
         val interactionSource = remember { MutableInteractionSource() }
         val indication = rememberRipple(bounded = true)
         Column {
@@ -92,15 +95,15 @@ fun ScheduleList(
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
             LazyColumn(modifier = Modifier.weight(1f)) {
-                val daySchedule = if (currPageIndex < 7 &&
-                    (schedule.value?.oddWeek?.dayScheduleList?.size  ?: 0) > currPageIndex % 7)
-                {
-                    schedule.value?.oddWeek?.dayScheduleList?.get(currPageIndex % 7)?.lessonsList
+                val daySchedule = if (day < 7 &&
+                    (schedule.value?.oddWeek?.dayScheduleList?.size ?: 0) > day % 7
+                ) {
+                    schedule.value?.oddWeek?.dayScheduleList?.get(day % 7)?.lessonsList
                         ?: emptyList()
                 } else if ((schedule.value?.evenWeek?.dayScheduleList?.size
-                        ?: 0) > currPageIndex % 7
+                        ?: 0) > day % 7
                 ) {
-                    schedule.value?.evenWeek?.dayScheduleList?.get(currPageIndex % 7)?.lessonsList
+                    schedule.value?.evenWeek?.dayScheduleList?.get(day % 7)?.lessonsList
                         ?: emptyList()
                 } else {
                     emptyList()
@@ -118,6 +121,5 @@ fun ScheduleList(
                 }
             }
         }
-
     }
 }

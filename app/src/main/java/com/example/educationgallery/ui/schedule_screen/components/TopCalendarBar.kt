@@ -21,8 +21,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableIntState
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,11 +37,11 @@ import kotlinx.coroutines.flow.emptyFlow
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TopCalendarBar(
-    isOddWeek: MutableState<Boolean>,
+    currDayIndex: Int,
     weekPageState: PagerState,
-    currWeekPageIndex: MutableIntState,
-    isSelectedInOddWeek: MutableState<Boolean>,
-    tabs: List<String>
+    tabs: List<String>,
+    clickToChangeWeek: (weekIndex: Int) -> Unit,
+    clickToChangeDay: (index: Int) -> Unit
 ) {
     Column(modifier = Modifier.padding(bottom = 12.dp)) {
         Row(
@@ -55,14 +53,14 @@ fun TopCalendarBar(
         ) {
             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
                 contentDescription = "Previous",
-                tint = if (!isOddWeek.value) MaterialTheme.colorScheme.primary else Color.Gray,
+                tint = if (weekPageState.currentPage == 1) MaterialTheme.colorScheme.primary else Color.Gray,
                 modifier = Modifier
-                    .clickable(enabled = !isOddWeek.value) {
-                        isOddWeek.value = !isOddWeek.value
+                    .clickable(enabled = weekPageState.currentPage == 1) {
+                        clickToChangeWeek(0)
                     }
                     .clip(RoundedCornerShape(50)))
             Text(
-                text = if (isOddWeek.value) "Нечетная неделя" else "Четная неделя",
+                text = if (weekPageState.currentPage == 1) "Нечетная неделя" else "Четная неделя",
                 style = TextStyle(
                     textAlign = TextAlign.Center,
                     fontSize = MaterialTheme.typography.bodyLarge.fontSize
@@ -72,28 +70,26 @@ fun TopCalendarBar(
                     .weight(1f)
             )
             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
-                tint = if (isOddWeek.value) MaterialTheme.colorScheme.primary else Color.Gray,
+                tint = if (weekPageState.currentPage == 0) MaterialTheme.colorScheme.primary else Color.Gray,
                 contentDescription = "Next",
                 modifier = Modifier
-                    .clickable(enabled = isOddWeek.value) {
-                        isOddWeek.value = !isOddWeek.value
+                    .clickable(enabled = weekPageState.currentPage == 0) {
+                        clickToChangeWeek(1)
                     }
                     .clip(RoundedCornerShape(50)))
         }
         HorizontalPager(
             count = 2, state = weekPageState, modifier = Modifier.fillMaxWidth()
-        ) { index ->
-            TabRow(selectedTabIndex = currWeekPageIndex.intValue, indicator = {}, divider = {}) {
+        ) { weekIndex ->
+            TabRow(selectedTabIndex = currDayIndex % 7, indicator = {}, divider = {}) {
                 tabs.forEachIndexed { index, s ->
-                    val isSelected =
-                        currWeekPageIndex.intValue == index && isSelectedInOddWeek.value == isOddWeek.value
+                    val isSelected = (currDayIndex % 7 == index) && (currDayIndex / 7 == weekIndex)
                     val backgroundColor = animateColorAsState(
                         targetValue = if (isSelected) Color.LightGray else Color.Transparent,
                         label = ""
                     )
                     Tab(selected = isSelected, onClick = {
-                        currWeekPageIndex.intValue = index
-                        isSelectedInOddWeek.value = isOddWeek.value
+                        clickToChangeDay(weekIndex * 7 + index)
                     }, interactionSource = object : MutableInteractionSource {
                         override val interactions: Flow<Interaction> = emptyFlow()
                         override suspend fun emit(interaction: Interaction) {}
